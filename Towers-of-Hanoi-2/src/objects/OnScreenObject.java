@@ -36,4 +36,17 @@ public class OnScreenObject {
 
         return new Point(newX, newY);
     }
+
+    public String physicalProperties() {
+        String result = "";
+
+        result += "(" + screenCoordinates.x;
+        result += ", " + screenCoordinates.y + ") ";
+        result += width + "/";
+        result += height;
+
+        result += "\n";
+
+        return result;
+    }
 }

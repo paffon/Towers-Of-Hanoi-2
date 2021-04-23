@@ -4,21 +4,26 @@ import TowersOfHanoi.TowersOfHanoi;
 import objects.*;
 import objects.Point;
 
+import javax.sound.midi.SoundbankResource;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
 public class MyPanel extends JPanel implements ActionListener {
     int PANEL_WIDTH;
     int PANEL_HEIGHT;
     Timer timer;
-    int fps = 24;
+    int fps = 1;
     TowersOfHanoi toh;
     Set<OnScreenObject> onScreenObjectList;
     ProgressBar progressBar;
+    OnScreenObject base;
+    Rod[] rods;
+    Disc[] discs;
     boolean finished = false;
 
     public MyPanel(TowersOfHanoi toh) {
@@ -40,11 +45,11 @@ public class MyPanel extends JPanel implements ActionListener {
     }
 
     private void setupDiscs() {
-        Disc[] discs = toh.discs;
+        discs = toh.discs;
         Rod rod = toh.rods[0];
         int amountOfDiscs = toh.amountOfDiscs;
 
-        double rodMargin = 0.05;
+        double rodMargin = 0.1 * rod.height;
         double totalDiscsHeight = rod.height - rodMargin;
         double height = totalDiscsHeight / amountOfDiscs;
         Point rodMidTopPoint = rod.getPointOnObject(0.5, 0);
@@ -65,17 +70,21 @@ public class MyPanel extends JPanel implements ActionListener {
     }
 
     private void setupRods() {
-        Rod rod0 = toh.rods[0];
-        Rod rod1 = toh.rods[1];
-        Rod rod2 = toh.rods[2];
+        rods = toh.rods;
+        Rod rod0 = rods[0];
+        Rod rod1 = rods[1];
+        Rod rod2 = rods[2];
 
-        basicParamsSetup(rod0, 0.15 , 0.3, 0.05,0.6);
-        basicParamsSetup(rod1, 0.475, 0.3, 0.05,0.6);
-        basicParamsSetup(rod2, 0.8  , 0.3, 0.05,0.6);
+        double width = 0.05;
+        double height = 0.4;
+        double y = base.screenCoordinates.y - height;
+        basicParamsSetup(rod0, 0.15 , y, width, height);
+        basicParamsSetup(rod1, 0.475, y, width, height);
+        basicParamsSetup(rod2, 0.8  , y, width, height);
     }
 
     private void setupBase() {
-        OnScreenObject base = new OnScreenObject(ObjectType.BASE);
+        base = new OnScreenObject(ObjectType.BASE);
         basicParamsSetup(base, 0.0, 0.9, 1.0,0.1);
     }
 
@@ -86,10 +95,10 @@ public class MyPanel extends JPanel implements ActionListener {
 
     // x, y, width & height are given as percentage of windows's width / height
     private void basicParamsSetup(OnScreenObject object, double x, double y, double width, double height) {
-        object.screenCoordinates.x = x * PANEL_WIDTH;
-        object.screenCoordinates.y = y * PANEL_HEIGHT;
-        object.width = width * PANEL_WIDTH;
-        object.height = height * PANEL_HEIGHT;
+        object.screenCoordinates.x = x;
+        object.screenCoordinates.y = y;
+        object.width = width;
+        object.height = height;
         onScreenObjectList.add(object);
     }
 
@@ -110,6 +119,24 @@ public class MyPanel extends JPanel implements ActionListener {
         super.paint(g);
 
         Graphics2D g2D = (Graphics2D) g;
+
+        paint(base, g2D);
+        for(Rod rod: rods) {
+            paint(rod, g2D);
+        }
+        for(Disc object: discs) {
+            paint(object, g2D);
+        }
+        paint(progressBar, g2D);
+    }
+
+    private void paint(OnScreenObject object, Graphics2D g2D) {
+        g2D.setColor(object.color);
+        int x = (int) (object.screenCoordinates.x * PANEL_WIDTH);
+        int y = (int) (object.screenCoordinates.y * PANEL_HEIGHT);
+        int width = (int) (object.width * PANEL_WIDTH);
+        int height = (int) (object.height * PANEL_HEIGHT);
+        g2D.fillRect(x, y, width, height);
     }
 
     @Override

@@ -8,13 +8,13 @@ import java.util.Scanner;
 public class main {
 
     public static void main(String[] args) {
-        System.out.println("Hello world");
-
         Scanner sc = new Scanner(System.in);
 
         int discsAmount = 0;
-        while(discsAmount < 1 || discsAmount > 10) {
-            discsAmount = getUserInput("How many discs? 1-10", sc);
+        int minDiscs = 2;
+        int maxDiscs = 10;
+        while(discsAmount < minDiscs || discsAmount > maxDiscs) {
+            discsAmount = getUserInput("How many discs? "+minDiscs+"-"+maxDiscs, sc);
         }
 
 
