@@ -1,5 +1,7 @@
 package objects;
 
+import display.ObjectType;
+
 import java.awt.*;
 import java.util.Stack;
 
@@ -7,8 +9,8 @@ public class Rod extends OnScreenObject{
     Stack<Disc> discs;
     String name;
 
-    public Rod(String name) {
-        super();
+    public Rod(String name, ObjectType type) {
+        super(type);
         this.name = name;
         this.discs = new Stack<>();
     }

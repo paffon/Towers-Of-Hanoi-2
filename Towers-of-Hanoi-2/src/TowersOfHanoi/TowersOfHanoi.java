@@ -1,18 +1,18 @@
 package TowersOfHanoi;
 
+import display.ObjectType;
 import objects.Disc;
 import objects.OnScreenObject;
 import objects.Rod;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 public class TowersOfHanoi {
-    Rod[] rods;
-    Disc[] discs;
-    int amountOfDiscs;
-    ArrayList<RodsTriple> solution;
+    public Rod[] rods;
+    public Disc[] discs;
+    public int amountOfDiscs;
+    public ArrayList<RodsTriple> solution;
 
     public TowersOfHanoi(int amountOfDiscs) {
         this.amountOfDiscs = amountOfDiscs;
@@ -49,16 +49,17 @@ public class TowersOfHanoi {
 
     private void initRods() {
         rods = new Rod[3];
-        for(int i=0; i<3; i++) {
-            rods[i] = new Rod(Integer.toString(i));
-        }
+
+        rods[0] = new Rod("0", ObjectType.ROD_FROM);
+        rods[1] = new Rod("1", ObjectType.ROD_HELPER);
+        rods[2] = new Rod("2", ObjectType.ROD_TO);
     }
 
     private void initDiscs() {
         discs = new Disc[amountOfDiscs]; // discs are 0 to n-1
         for(int i=0; i < amountOfDiscs; i++) {
             // placing all discs on the first rod
-            discs[i] = new Disc(rods[0], i);
+            discs[i] = new Disc(rods[0], i, ObjectType.DISC);
             rods[0].push(discs[i]);
         }
     }

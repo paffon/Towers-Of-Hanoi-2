@@ -1,6 +1,7 @@
 package main;
 
 import TowersOfHanoi.TowersOfHanoi;
+import display.MyFrame;
 
 import java.util.Scanner;
 
@@ -11,15 +12,21 @@ public class main {
 
         Scanner sc = new Scanner(System.in);
 
-        int discsAmount = getUserInput("How many discs?", sc);
+        int discsAmount = 0;
+        while(discsAmount < 1 || discsAmount > 10) {
+            discsAmount = getUserInput("How many discs? 1-10", sc);
+        }
+
 
         TowersOfHanoi toh = new TowersOfHanoi(discsAmount);
 
-        toh.printSolutions();
-
         toh.solve();
 
-        toh.printSolutions();
+        try {
+            new MyFrame(toh);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private static int getUserInput(String string, Scanner sc) {
