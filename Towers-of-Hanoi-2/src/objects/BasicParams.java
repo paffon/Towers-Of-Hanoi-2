@@ -6,14 +6,14 @@ import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ColorPalette {
+public class BasicParams {
     Map<ObjectType, Color> colors;
 
-    public ColorPalette() {
-        addObjectsAndColors();
+    public BasicParams() {
+        colorsSetup();
     }
 
-    private void addObjectsAndColors() {
+    private void colorsSetup() {
         colors = new HashMap<>();
 
         colors.put(ObjectType.BASE, Color.GRAY);
@@ -28,4 +28,6 @@ public class ColorPalette {
     public Color getColor(ObjectType onScreenObject) {
         return colors.get(onScreenObject);
     }
+
+
 }

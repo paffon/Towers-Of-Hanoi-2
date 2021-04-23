@@ -5,8 +5,8 @@ import display.ObjectType;
 import java.awt.*;
 
 public class OnScreenObject {
-    public int width;
-    public int height;
+    public double width;
+    public double height;
     public Color color;
     public Point screenCoordinates;
     public ObjectType type;
@@ -22,6 +22,18 @@ public class OnScreenObject {
     }
 
     public void colorMe() {
-        color = new ColorPalette().getColor(type);
+        color = new BasicParams().getColor(type);
+    }
+
+    // Returns a point with coordinates of x,y relative to the object's dimensions and location
+    // getPointOnObject(0, 0) = left-top
+    // getPointOnObject(0.5, 0) = mid-top
+    // getPointOnObject(0.5, 1) = mid-bottom
+    // etc.
+    public Point getPointOnObject(double x, double y) {
+        double newX = screenCoordinates.x + x * width;
+        double newY = screenCoordinates.y + y * height;
+
+        return new Point(newX, newY);
     }
 }
