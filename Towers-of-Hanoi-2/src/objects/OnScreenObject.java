@@ -9,14 +9,21 @@ public class OnScreenObject {
     public double height;
     public Color color;
     public Point screenCoordinates;
+    public double speedX;
+    public double speedY;
     public ObjectType type;
 
     public OnScreenObject(ObjectType type) {
         // default parameters:
         width = 0;
         height = 0;
+
         color = Color.WHITE;
+
         screenCoordinates = new Point(0, 0); // default location - top left
+        speedX = 0.0;
+        speedY = 0.0;
+
         this.type = type;
         colorMe();
     }

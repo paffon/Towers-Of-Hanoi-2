@@ -11,8 +11,9 @@ public class main {
         Scanner sc = new Scanner(System.in);
 
         int discsAmount = 0;
+        discsAmount = 10;
         int minDiscs = 2;
-        int maxDiscs = 10;
+        int maxDiscs = 16;
         while(discsAmount < minDiscs || discsAmount > maxDiscs) {
             discsAmount = getUserInput("How many discs? "+minDiscs+"-"+maxDiscs, sc);
         }

@@ -26,13 +26,6 @@ public class TowersOfHanoi {
         solution = new ArrayList<>();
     }
 
-    public void printSolutions() {
-        int i=1;
-        for(RodsTriple rt: solution) {
-            System.out.println(i++ + ". " + rt);
-        }
-    }
-
     public void solve() {
         System.out.println("Solving...\n");
         solve(rods[0], rods[1], rods[2], amountOfDiscs);
@@ -57,8 +50,8 @@ public class TowersOfHanoi {
 
     private void initDiscs() {
         discs = new Disc[amountOfDiscs]; // discs are 0 to n-1
-        for(int i=0; i < amountOfDiscs; i++) {
-            // placing all discs on the first rod
+        for(int i=amountOfDiscs - 1; i >= 0; i--) {
+            // placing all discs on the first rod, from biggest to smallest
             discs[i] = new Disc(rods[0], i, ObjectType.DISC);
             rods[0].push(discs[i]);
         }

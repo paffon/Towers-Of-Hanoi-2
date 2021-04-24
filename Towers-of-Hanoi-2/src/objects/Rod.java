@@ -2,12 +2,11 @@ package objects;
 
 import display.ObjectType;
 
-import java.awt.*;
 import java.util.Stack;
 
 public class Rod extends OnScreenObject{
-    Stack<Disc> discs;
-    String name;
+    public Stack<Disc> discs;
+    public String name;
 
     public Rod(String name, ObjectType type) {
         super(type);
@@ -25,6 +24,13 @@ public class Rod extends OnScreenObject{
 
     @Override
     public String toString() {
-        return name;
+        String string = name + ": [";
+        for(Disc disc : discs) {
+            string += disc.order + ",";
+        }
+
+        string += "]";
+
+        return string;
     }
 }
