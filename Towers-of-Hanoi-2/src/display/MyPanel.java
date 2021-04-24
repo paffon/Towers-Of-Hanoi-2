@@ -28,18 +28,19 @@ public class MyPanel extends JPanel implements ActionListener {
 
     State state;
 
-    double discMargin = 0.025; // the space above a rod to which a disc goes up
-    double movementSpeed = 0.05; // how fast discs are moving
-    double discsSpacing = 0.01; // the space between discs on a rod
+    double progressBarMaxWidth = 0.95;
+    double discMargin = 0.025; // the space above a rod that a disc goes up to
+    double movementSpeed = 0.075; // how fast discs are moving
+    double discsSpacing = 0.01; // the space between discs stacked on a rod
     double discHeight; // the length between two discs tops [thickness + spacing]
     double rodMargin; // how much of the rod sticks out when all discs are on it
 
     Set<OnScreenObject> onScreenObjectList;
     ProgressBar progressBar;
+    OnScreenObject progressBarBG;
     OnScreenObject base;
     Rod[] rods;
     Disc[] discs;
-    boolean finished = false;
 
     public MyPanel(TowersOfHanoi toh) {
         this.toh = toh;
@@ -55,10 +56,14 @@ public class MyPanel extends JPanel implements ActionListener {
     private void setSolutionStage(int i) {
         this.solutionStageIndex = i;
         solutionStage = toh.solution.get(solutionStageIndex);
+        solutionStage.from.type = ObjectType.ROD_FROM;
+        solutionStage.helper.type = ObjectType.ROD_HELPER;
+        solutionStage.to.type = ObjectType.ROD_TO;
+
         from = solutionStage.from;
         to = solutionStage.to;
 
-        progressBar.width = (double) (i + 1) / (double) toh.solution.size();
+        progressBar.width = progressBarMaxWidth * (double) (i + 1) / (double) toh.solution.size();
     }
 
     private void onScreenObjectsSetup() {
@@ -81,6 +86,9 @@ public class MyPanel extends JPanel implements ActionListener {
         double minDiscWidth = 0.1;
         double maxDiscWidth = 0.25;
 
+        GeneralParameters gp = new GeneralParameters();
+        Color randomColor = new Color(180, 20 ,20);
+
         for(int i = 0; i < discs.length; i++) {
             Disc disc = discs[i];
 
@@ -92,6 +100,8 @@ public class MyPanel extends JPanel implements ActionListener {
             double y = rodMidTopPoint.y + rodMargin + i * discHeight;
 
             basicParamsSetup(disc, x, y, width, actualHeightForDiscs);
+
+            disc.color = gp.getGradient(randomColor, i, discs.length);
         }
     }
 
@@ -111,12 +121,21 @@ public class MyPanel extends JPanel implements ActionListener {
 
     private void setupBase() {
         base = new OnScreenObject(ObjectType.BASE);
-        basicParamsSetup(base, 0.0, 0.9, 1.0,0.1);
+        double baseWidth = 0.95;
+        double baseHeight = 0.3;
+        basicParamsSetup(base, (1 - baseWidth) / 2, 1 - baseHeight, baseWidth, baseHeight);
     }
 
     private void setupProgressBar() {
-        progressBar = new ProgressBar(0.0, ObjectType.PROGRESS_BAR);
-        basicParamsSetup(progressBar, 0.0, 0.025, 0.0,0.05);
+        double x = (1- progressBarMaxWidth) / 2;
+        double y = 0.025;
+        double height = 0.05;
+
+        progressBarBG = new OnScreenObject(ObjectType.PROGRESS_BAR_BG);
+        basicParamsSetup(progressBarBG, x, y, progressBarMaxWidth, height);
+
+        progressBar = new ProgressBar(ObjectType.PROGRESS_BAR);
+        basicParamsSetup(progressBar, x, y, 0.0, height);
     }
 
     // x, y, width & height are given as percentage of windows's width / height
@@ -138,7 +157,7 @@ public class MyPanel extends JPanel implements ActionListener {
         this.PANEL_HEIGHT = (int) (0.95 * screenHeight);
 
         this.setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
-        this.setBackground(Color.BLACK);
+        this.setBackground(Color.black);
 
         state = State.WAITING_FOR_NEXT_MOVE;
     }
@@ -155,6 +174,7 @@ public class MyPanel extends JPanel implements ActionListener {
         for(Disc object: discs) {
             paint(object, g2D);
         }
+        paint(progressBarBG, g2D);
         paint(progressBar, g2D);
     }
 
@@ -200,7 +220,8 @@ public class MyPanel extends JPanel implements ActionListener {
     }
 
     private void prepareToFinish() {
-        progressBar.width = 1;
+        progressBar.width = progressBarMaxWidth;
+        this.setBackground(new Color(10, 140, 50));
     }
 
     private void checkDownMovement() {

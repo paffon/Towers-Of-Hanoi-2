@@ -29,7 +29,7 @@ public class OnScreenObject {
     }
 
     public void colorMe() {
-        color = new BasicParams().getColor(type);
+        color = new GeneralParameters().getColor(type);
     }
 
     // Returns a point with coordinates of x,y relative to the object's dimensions and location

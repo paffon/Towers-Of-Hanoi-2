@@ -20,9 +20,6 @@ public class TowersOfHanoi {
         initRods();
         initDiscs();
 
-        paintObjectsArray(rods, Color.GRAY);
-        paintObjectsArray(discs, Color.WHITE);
-
         solution = new ArrayList<>();
     }
 
