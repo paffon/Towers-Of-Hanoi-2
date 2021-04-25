@@ -15,4 +15,4 @@ Another take on the famous puzzle.
 
 ## Example
 
-![image](https://user-images.githubusercontent.com/45170837/116002590-c0cd0200-a5fa-11eb-914b-7eabcaa80d22.png)
+![image](https://user-images.githubusercontent.com/45170837/116002602-d04c4b00-a5fa-11eb-91e1-9aa735b25fee.png)
